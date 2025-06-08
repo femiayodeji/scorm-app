@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+    <html>
+      <head>
+      <title>SCORM Player</title>
+      </head>
+      <body>
+        <iframe src="uploads/course2/index_lms.html" width="100%" height="700px" frameborder="0">  
+        </iframe> 
+        <script>
+            window.API = {
+                LMSInitialize: function () { console.log("Init"); return "true"; },
+                LMSSetValue: function (k, v) { console.log(k, v); return "true"; },
+                LMSCommit: function () { return "true"; },
+                LMSFinish: function () { console.log("Finish"); return "true"; },
+                LMSGetValue: function (k) { console.log("Get", k); return ""; },
+                LMSGetLastError: () => "0",
+                LMSGetErrorString: () => "No error",
+                LMSGetDiagnostic: () => "No diagnostics"
+            };
+           </script>
+          </body>
+    </html>

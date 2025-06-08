@@ -1,30 +1,34 @@
-console.log("SCORM API loaded!");
-const progressStore = {}; // You can replace this with a POST call to your server
+const userCourseData = localStorage.getItem("scormProgress");
+const scormData = JSON.parse(userCourseData) || {};
+
 window.API = {
     LMSInitialize: function () {
-      console.log("[SCORM] LMSInitialize");
-      return "true";
-    },
-    LMSFinish: function () {
-      console.log("[SCORM] LMSFinish");
-      return "true";
-    },
-    LMSGetValue: function (key) {
-      console.log(`[SCORM] LMSGetValue: ${key}`);
-      return progressStore[key] || "";
+        console.log("SCORM Initialized");
+        return "true";
     },
     LMSSetValue: function (key, value) {
-      console.log(`[SCORM] LMSSetValue: ${key} = ${value}`);
-      progressStore[key] = value;
-      // Optional: send progress to server
-
-      return "true";
+        console.log("SetValue:", key, value);
+        scormData[key] = value;
+        const userUserCourseData = JSON.stringify(scormData);
+        localStorage.setItem("scormProgress", userUserCourseData);
+        return "true";
+    },
+    LMSGetValue: function (key) {
+        const value = scormData[key] || "";
+        console.log("GetValue:", key, value);
+        return value;
     },
     LMSCommit: function () {
-      console.log("[SCORM] LMSCommit", progressStore);
-      return "true";
+        console.log("SCORM Commit");
+        const userUserCourseData = JSON.stringify(scormData);
+        localStorage.setItem("scormProgress", userUserCourseData);
+        return "true";
+    },
+    LMSFinish: function () {
+        console.log("SCORM Finish");
+        return "true";
     },
     LMSGetLastError: () => "0",
     LMSGetErrorString: () => "No error",
-    LMSGetDiagnostic: () => "No diagnostic"    
-  };
+    LMSGetDiagnostic: () => "No diagnostics",
+};
